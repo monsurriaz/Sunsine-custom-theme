@@ -1,6 +1,6 @@
 <section>
     <header class="container mx-auto">
-        <div class="header border-y items-center">
+        <div class="header border-t items-center">
             <div class="header__logo">
             {% if section.settings.logo != blank %} {%- assign image_size =
             section.settings.logo_width | append: 'x' -%}
@@ -26,11 +26,15 @@
                         {% if link.links != blank %}
                             <li class="nav__item py-5 px-4 block">
                                 <a href="{{ link.url }}" class="nav__item-link">{{link.title | escape }}</a>
-                                <ul class="nav__item-submenu absolute bg-white py-3 px-4 min-w-[160px] top-16 left-1/2 transform -translate-x-1/2">
-                                    {% for childLink in link %}
-                                        {% if childLink.links %}
+                                <ul class="nav__item-submenu absolute bg-white border z-10 py-3 px-4 min-w-[160px] top-16 left-1/2 transform -translate-x-1/2">
+                                    {% for sublink in linklists[link.handle].links %}
+                                        {% if sublink.links != blank %}
                                             <li>
-                                                <a href="{{ childLink.url }}">{{ childLink.title | escape }}</a>
+                                                <a href="{{ sublink.url }}">{{ sublink.title | escape }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a href="{{ sublink.url }}">{{ sublink.title | escape }}</a>
                                             </li>
                                         {% endif %}
                                     {% endfor %}
