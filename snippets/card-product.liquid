@@ -48,7 +48,7 @@
         <div class="card__title">
           {{ card_product.title | escape }}
         </div>
-        {% render '__price-element', product: card_product %}
+        {% render '__price-element', product: card_product, price_class: 'class' %}
       </div>
     </div>
   </a>

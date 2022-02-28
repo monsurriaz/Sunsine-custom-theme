@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .header {
     display: grid;
     grid-template-areas: "header-logo header-menu header-icons";
@@ -27,4 +28,21 @@
             display: block;
         }
     }
+}
+
+// helper
+img, video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.shopify-payment-button{
+    button{
+        @apply bg-black text-white rounded-sm;
+    }
+}
+
+.primary__button{
+    @apply bg-black text-white rounded-sm my-2 py-3 px-6 flex items-center justify-center;
 }
