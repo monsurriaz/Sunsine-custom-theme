@@ -1,5 +1,5 @@
-
 <div class="section-{{ section.id }}-padding container mx-auto">
+
   <div id="ProductGridContainer">
     {%- paginate collection.products by section.settings.products_per_page -%}
       {%- if collection.products.size == 0 -%}
@@ -17,7 +17,13 @@
           <ul id="product-grid" data-id="{{ section.id }}" class="grid grid-cols-4 gap-3">
             {%- for product in collection.products -%}
               <li class="grid__item border">
-                {% render 'card-product',
+                <!-- {% render 'card-product',
+                  card_product: product,
+                  show_secondary_image: section.settings.show_secondary_image,
+                  show_vendor: section.settings.show_vendor,
+                  show_rating: section.settings.show_rating,
+                %} -->
+                {% render '_custom-card-product',
                   card_product: product,
                   show_secondary_image: section.settings.show_secondary_image,
                   show_vendor: section.settings.show_vendor,

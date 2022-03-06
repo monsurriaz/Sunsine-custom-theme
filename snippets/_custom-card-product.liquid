@@ -1,18 +1,3 @@
-{% comment %}
-    Renders a product card
-
-    Accepts:
-    - card_product: {Object} Product Liquid object (optional)
-    - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
-    - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
-    - show_vendor: {Boolean} Show the product vendor. Default: false
-    - show_rating: {Boolean} Show the product rating. Default: false
-    - extend_height: {Boolean} Card height extends to available container space. Default: true (optional)
-    - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
-
-    Usage:
-    {% render 'card-product', show_vendor: section.settings.show_vendor %}
-{% endcomment %}
 
 {%- if card_product and card_product != empty -%}
   <a href="{{ card_product.url }}" class="card-wrapper group block">
@@ -41,6 +26,18 @@
           {{ card_product.title | escape }}
         </div>
         {% render '__price-element', product: card_product, price_class: 'class' %}
+        {% if card_product.images %}
+          <div class="image_variant flex justify-center flex-wrap gap-1 m-2">
+            {% for image in card_product.images %}
+              {% for variant in image.variants %}
+                <img class="w-8 h-8 rounded-full border p-0.5" src="{{ image.src | img_url: '35x35' }}" />
+                <span id="image_v_title">
+                    <!-- {{ variant.title }} -->
+                </span>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
   </a>
@@ -84,3 +81,15 @@
     </div>
   </div>
 {%- endif -%}
+
+
+<script>
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     let titles = document.querySelectorAll("#image_v_title");
+    //     for (let i = 0; i < titles.length; i++) {
+    //         let title = titles[i];
+    //         tit = title.innerText.split('/')[1];
+    //         title.innerText = tit;
+    //     }
+    // });
+</script>

@@ -184,7 +184,7 @@
 
     <!-- {{ 'base.css' | asset_url | stylesheet_tag }} -->
     {{ 'app.css' | asset_url | stylesheet_tag }}
-    
+
     <!-- <script src="{{ 'app.js' | asset_url }}"></script> -->
     <script src="{{ 'app.js' | asset_url }}" defer="defer"></script>
 
@@ -212,8 +212,9 @@
     </a>
 
     {% section 'announcement-bar' %}
-    <!-- {% section 'header' %} -->
     {% section 'main-header' %}
+    {% render '__cart-drawer' %}
+
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>

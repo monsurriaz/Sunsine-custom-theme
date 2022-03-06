@@ -1,23 +1,22 @@
 <section>
-    <header class="container mx-auto">
+    <header class="container mx-auto" x-data>
         <div class="header border-t items-center">
             <div class="header__logo">
-            {% if section.settings.logo != blank %} {%- assign image_size =
-            section.settings.logo_width | append: 'x' -%}
-            <a href="/" class="block">
-                <img
-                src="{{ section.settings.logo | img_url: 'master' }}"
-                alt="{{ section.setting.logo.alt | default: shop.name }}"
-                style="width: min(100%, {{ section.settings.logo_width }}px);"
-                />
-            </a>
-            {% else %}
-            <a href="/">
-                {{ shop.name }}
-            </a>
-            {% endif %}
+                {% if section.settings.logo != blank %} {%- assign image_size = section.settings.logo_width | append: 'x' -%}
+                    <a href="/" class="block">
+                        <img
+                        src="{{ section.settings.logo | img_url: 'master' }}"
+                        alt="{{ section.setting.logo.alt | default: shop.name }}"
+                        style="width: min(100%, {{ section.settings.logo_width }}px);"
+                        />
+                    </a>
+                {% else %}
+                    <a href="/">
+                        {{ shop.name }}
+                    </a>
+                {% endif %}
             </div>
-            <nav class="header__menu relative" x-data>
+            <nav class="header__menu relative">
                 <button class="md:hidden" type="button" @click="$dispatch('toggle-menu')">
                     {%- render 'icon-hamburger', class: 'w-10' -%}
                 </button>
@@ -48,14 +47,14 @@
                     {% endfor %}
                 </ul>
             </nav>
-            <div class="header__icons flex justify-end space-x-4">
-                <div class="header__icon header__icon-cart text-center">
-                    <button type="button" class="text-center">
-                        {% if cart == empty %} 
-                            {%- render 'icon-cart-empty', class: 'w-10'-%}
-                        {% else %} 
-                            {%- render 'icon-cart', class: 'w-10'-%} 
-                        {% endif %}
+            <div class="header__icons flex justify-end space-x-4 items-center">
+                <div class="header__icon header__icon-cart text-center flex items-center">
+                    <button
+                        type="button"
+                        title="Cart button"
+                        @click="$dispatch('toggle-cart')"
+                        class="text-center">
+                        {%- render 'icon-cart', class: 'w-11'-%}
                         <span class="sr-only">{{ 'templates.cart.cart' | t }}</span>
                     </button>
                     <!-- {%- if cart != empty -%}
@@ -69,9 +68,9 @@
                 </div>
                 <div class="header__icon header__icon-account">
                     {%- if shop.customer_accounts_enabled -%}
-                        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}">
-                            {% render 'icon-account' %}
-                            <span class="visually-hidden">
+                        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon--account block link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}">
+                            {% render 'icon-account', class: 'w-5' %}
+                            <span class="sr-only">
                                 {%- liquid
                                 if customer
                                     echo 'customer.account_fallback' | t
