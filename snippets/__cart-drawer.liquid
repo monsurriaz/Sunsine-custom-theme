@@ -58,33 +58,72 @@
         <div
           class="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll"
         >
-          <div class="px-4 sm:px-6">
-            <h3>Your Cart</h3>
-          </div>
-          <div class="mt-6 relative flex-1 px-4 sm:px-6">
-            {% for item in cart.items %}
-                <div class="cart__drawer-wrapper grid grid-cols-2">
-                    <div class="product__image">
-                        <img class="w-20" src="{{ item.image | img_url: '400x' }}" alt="{{ item.image.alt }}">
-                    </div>
-                    <div class="product__info">
-                        <div class="product__title">
-                            {{ item.product.title }}
-                        </div>
-                        <div class="product__quantity">
-                            {{ item.quantity }}
-                        </div>
-                        <div class="product__price">
-                            {{ item.price | money }}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            <div class="total__price text-right">
-                Total: {{ cart.total_price | money }}
+          <form action="{{ routes.cart_url }}">
+            <div class="flex justify-between items-center py-3 bg-white  px-4 md:px-4">
+              <h3 class="text-base font-semibold">
+                {{ 'general.cart.title' | t }}
+                {% if cart.item_count > 0 %}
+                  <span>({{ cart.item_count | json }})</span>
+                {% endif %}
+              </h3>
+              <button type="button" title="{{ 'general.cart.continue_shopping' | t }}" class="text-base font-medium p-1 text-right" @click="$dispatch('toggle-cart')">
+                {{ 'general.cart.continue_shopping' | t }}
+              </button>
             </div>
-            <a href="/cart" class="button__primary">Cart</a>
-          </div>
+
+            <div class="mt-6 relative flex-1 px-4 sm:px-6 h-full">
+              {% if cart.item_count > 0 %}
+              <div class="flex flex-col overflow-y-scroll justify-between h-full pb-4 font-medium no-scrollbar relative">
+                {% assign total_saving = 0 %}
+                <div class="">
+                  {% for item in cart.items %}
+                    <div class="cart__drawer-wrapper grid grid-cols-2">
+                      <div class="flex py-3 border-color w-full items-center md:items-start
+                        {% unless forloop.last %} border-b border-gray-400 {% endunless %}">
+                        <div class="w-4/12">
+                          {% if item.image %}
+                            {{ item.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'w-full pr-4' }}
+                          {% else %}
+                            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                          {% endif %}
+                        </div>
+                        <div class="w-8/12 product__info">
+                          <div class="product__title">
+                            <h3 class="w-10/12 text-base font-medium">
+                              <a href="{{ item.url }}" title="{{ item.product.title }}">{{ item.product.title }}</a>
+                            </h3>
+                          </div>
+                          <div class="product__quantity">
+                            <input type="number" value="{{ item.quantity }}">
+                          </div>
+                          <div class="product__price">
+                            {{ item.price | money }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% else %}
+                <div class="flex flex-col items-center">
+                  {% render 'icon-cart', class: 'w-10 h-10 pb-4' %}
+                  <h2 class="text-xl text-center font-medium">
+                    {{ 'general.cart.empty_html' | t }}
+                  </h2>
+                  <button type="button" class="text-sm text-center w-full font-medium" @click="$dispatch('toggle-cart')">
+                    {{'general.cart.continue_shopping' | t }}
+                  </button>
+                </div>
+              {% endif %}
+              <div class="total__price text-right">
+                  Total: {{ cart.total_price | money }}
+              </div>
+              <a href="/cart" class="button__primary">Cart</a>
+            </div>
+
+          </form>
+
         </div>
       </div>
     </div>

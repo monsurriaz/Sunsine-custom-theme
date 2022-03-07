@@ -39,7 +39,10 @@
       "search": "Search"
     },
     "cart": {
+      "title": "Your Cart",
+      "continue_shopping": "Continue shopping",
       "view": "View my cart ({{ count }})",
+      "empty_html":"Your cart is empty",
       "item_added": "Item added to your cart"
     },
     "share": {
